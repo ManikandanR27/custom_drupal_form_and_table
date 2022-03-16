@@ -1,0 +1,839 @@
+<?php
+
+/**
+ * @file
+ * Bootstrap sub-theme.
+ *
+ * Place your custom PHP code in this file.
+ */
+
+use Drupal\Core\Site\Settings;
+use Drupal\lp_lib\Session\SessionBackendDefault;
+use Drupal\lp_lib\Util\MappingUsages;
+use Drupal\lp_lib\Util\CommonMessenger;
+use Drupal\Core\Url;
+use Drupal\Core\Link;
+
+/**
+ * Implements hook_preprocess().
+ */
+// function drupal_add_css($data = NULL, $options = NULL) {
+//   $css = &drupal_static(__FUNCTION__, array());
+//   $count = &drupal_static(__FUNCTION__ . '_count', 0);
+
+//   // If the $css variable has been reset with drupal_static_reset(), there is
+//   // no longer any CSS being tracked, so set the counter back to 0 also.
+//   if (count($css) === 0) {
+//     $count = 0;
+//   }
+
+//   // Construct the options, taking the defaults into consideration.
+//   if (isset($options)) {
+//     if (!is_array($options)) {
+//       $options = array('type' => $options);
+//     }
+//   }
+//   else {
+//     $options = array();
+//   }
+
+//   // Create an array of CSS files for each media type first, since each type needs to be served
+//   // to the browser differently.
+//   if (isset($data)) {
+//     $options += array(
+//       'type' => 'file',
+//       'group' => 'css default',
+//       'weight' => 0,
+//       'every_page' => FALSE,
+//       'media' => 'all',
+//       'preprocess' => TRUE,
+//       'data' => $data,
+//       'browsers' => array(),
+//     );
+//     $options['browsers'] += array(
+//       'IE' => TRUE,
+//       '!IE' => TRUE,
+//     );
+
+//     // Files with a query string cannot be preprocessed.
+//     if ($options['type'] === 'file' && $options['preprocess'] && strpos($options['data'], '?') !== FALSE) {
+//       $options['preprocess'] = FALSE;
+//     }
+
+//     // Always add a tiny value to the weight, to conserve the insertion order.
+//     $options['weight'] += $count / 1000;
+//     $count++;
+
+//     // Add the data to the CSS array depending on the type.
+//     switch ($options['type']) {
+//       case 'inline':
+//         // For inline stylesheets, we don't want to use the $data as the array
+//         // key as $data could be a very long string of CSS.
+//         $css[] = $options;
+//         break;
+//       default:
+//         // Local and external files must keep their name as the associative key
+//         // so the same CSS file is not be added twice.
+//         $css[$data] = $options;
+//     }
+//   }
+
+//   return $css;
+// }
+
+function lifepoints_sass_preprocess(&$variables) {
+  global  $base_url;
+  $variables['#attached']['drupalSettings']['base_url'] = $base_url;
+  $variables['#cache']['max-age'] = 0;
+}
+
+// function lifepoints_sass_preprocess_html(&$vars) {
+//   drupal_add_css('//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css', array(
+//         'type' => 'external'
+//       ));
+// }
+
+// function lifepoints_sass_preprocess_html(&$vars) {
+//   // Add font awesome cdn.
+// drupal_add_css('//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css', array(
+//     'type' => 'external'
+//   ));
+// }
+/**
+ * Provide alternative template name suggestions.
+ */
+// function lifepoints_sass_theme_suggestions_html_alter(&$suggestions, $variables) {
+//   $path = \Drupal::requestStack()->getCurrentRequest()->getPathInfo();
+//   if ($path != '/') {
+//     $path = trim($path, '/');
+//     $arg = str_replace(["/", '-'], ['_', '_'], $path);
+//     $suggestions[] = 'html__' . $arg;
+//   }
+// }
+
+/**
+ * Implements hook_preprocess_HOOK() for page.html.twig.
+ */
+// function lifepoints_sass_preprocess_page(&$variables) {
+//   global $base_url;
+
+//   $variables['#attached']['library'][] = 'core/drupal.dialog.ajax';
+
+//   $moduleHandler = \Drupal::service('module_handler');
+//   $current_path = \Drupal::service('path.current')->getPath();
+
+//   // For Regsiteration page specific code. Run only in "/registeration", not for every page request.
+//   if ($moduleHandler->moduleExists('lp_registration')) {
+//     if (stristr(Url::fromRoute('lp_registration.registrationForm')->toString(), $current_path)) {
+//       // OP-6757 SEO: Recreate URL with correct locale in case of default EN.
+//       $variables['homePageLink'] = $base_url . MappingUsages::recreateUrlWithLocaleForDefaultPanel('<front>');
+//       $variables['loginFormLink'] = $base_url . MappingUsages::recreateUrlWithLocaleForDefaultPanel('lp_login.Login');
+//     }
+//   }
+
+//   if ($moduleHandler->moduleExists('lp_login')) {
+//     if (stristr(Url::fromRoute('lp_login.resetPassword')->toString(), $current_path)) {
+//       // For LP Reset Password.
+//       $form = Drupal::formBuilder()->getForm('\Drupal\lp_login\Form\ResetPasswordForm');
+//       $render = Drupal::service('renderer');
+//       $variables['lp_reset_password_form'] = $render->renderPlain($form);
+//     }
+//   }
+//   // OP-7003: LP Portal SEO: Adapt URLs of Community Page to include localized translated page names in the strings.
+//   $communityPath = Url::fromRoute('view.community_search_page.page_1')->toString();
+//   $communityPathAlias = \Drupal::service('path_alias.manager')->getAliasByPath($communityPath);
+//   /*  OP-6436 - Variables to get community Path */
+//   $variables['#attached']['drupalSettings']['communityPath'] = $communityPathAlias;
+
+//   // OP-7510.
+//   // Get Blog type node count and link to Blog category view.
+//   if (stristr($communityPathAlias, $current_path)) {
+//     // Get "Blog" type node count for tagged taxonomy(Blog category) terms.
+//     $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+//     // Get no of blog content for given panel.
+//     $query = \Drupal::entityQuery('node');
+//     $query->condition('type', 'blog');
+//     $query->condition('langcode', $language);
+//     $query->condition('status', 1);
+//     $blogIds = $query->execute();
+//     $count = count($blogIds);
+
+//     // Create link only if content found and ignore otherwise.
+//     if (isset($count) && $count > 0 ) {
+//       // Get Blog path from its Views.
+//       $blogViewUrl = Url::fromRoute('view.blog_search_page.page_2', array('arg_0' => 'make-money-online'));
+//       // Create custom link based on fixed/static term name " make-money-online"
+//       // @todo. Need to remove once Blog move to seperate domain.
+//       $blogLink = Link::fromTextAndUrl(t("Blog") . ' (' . $count . ')', $blogViewUrl)->toRenderable();
+//       $blogLink['#attributes'] = ['class' => 'dropdown-toggle'];
+
+//       // Pass static Blog Category URL to Coummunity Views.
+//       $variables['#attached']['drupalSettings']['blogCategoryLink'] = render($blogLink);
+//     }
+//   }
+
+//   /*   Variables to get the max limit */
+//   // More surveys max limit variable.
+//   $config = \Drupal::service('settings');
+//   $moreSurveysSeeAllLimit = $config::get('lp')['surveys']['MoreSurveysSeeAllLimit'];
+//   $variables['#attached']['drupalSettings']['MoreSurveysSeeAllLimit'] = $moreSurveysSeeAllLimit;
+
+//   // Ongoing surveys max limit variable.
+//   $config = \Drupal::service('settings');
+//   $ongoingSurveysSeeAllLimit = $config::get('lp')['surveys']['OnGoingSurveysSeeAllLimit'];
+//   $variables['#attached']['drupalSettings']['OnGoingSurveysSeeAllLimit'] = $ongoingSurveysSeeAllLimit;
+
+//   /*   For Registration START */
+
+//   $request_path = \Drupal::request()->getPathInfo();
+//   $registration_path = Url::fromRoute('lp_registration.registrationForm')->toString();
+//   $baseCurrentPath = basename($request_path);
+//   $baseRegistrationPath = basename($registration_path);
+//   if ($baseCurrentPath == $baseRegistrationPath) {
+//     if ($moduleHandler->moduleExists('lp_registration')) {
+//       // OP-6692 - Added this for google reCaptcha for both V2 and V3.
+//       $panelConfiguration = \Drupal::service('lp.configuration');
+//       if (isset($panelConfiguration->getV3Captcha()['v3RegForm']) && $panelConfiguration->getV3Captcha()['v3RegForm'] == TRUE && $moduleHandler->moduleExists('simple_recaptcha')) {
+//         // To get the custom form_ids.
+//         $config_forms = \Drupal::configFactory()->get('lp_login.config');
+//         $form_ids = explode(',', $config_forms->get('form_ids'));
+//         // To get the simple captcha configuration.
+//         $config = \Drupal::configFactory()->get('simple_recaptcha.config');
+//         $form_id = "lp_registration_form";
+//         // To get the site key from configurations.
+//         $site_key = $config->get('site_key_v3');
+//         $variables['#attached']['drupalSettings']['simple_recaptcha_v3']['sitekey'] = $site_key;
+//         $variables['#attached']['drupalSettings']['simple_recaptcha_v3']['forms'][$form_id] = [
+//           'form_id' => $form_id,
+//           'score' => $config->get('v3_score'),
+//           'error_message' => $config->get('v3_error_message'),
+//           'action' => $form_id,
+//         ];
+//         // Setting the variable to check the particular form or page need to load simple captcha JS.
+//         $variables['isCaptchaRequired'] = TRUE;
+//       }
+//       elseif (isset($panelConfiguration->getV2Captcha()['v2RegForm']) && $panelConfiguration->getV2Captcha()['v2RegForm'] == TRUE && $moduleHandler->moduleExists('recaptcha')) {
+//         // OP-3894 v2 reCAPTCHA on registration page.
+//         $form_id = "lp_registration_form";
+//         /** @var CaptchaPoint $captcha_point */
+//         $captcha_point = \Drupal::entityTypeManager()
+//           ->getStorage('captcha_point')
+//           ->load($form_id);
+
+//         if ($captcha_point->getCaptchaType() == 'recaptcha/reCAPTCHA') {
+//           // Setting v2 captcha veriable to use in registration twig file.
+//           $variables['isV2CaptchaRequired'] = TRUE;
+//           $lang = \Drupal::service('language_manager')
+//             ->getCurrentLanguage()
+//             ->getId();
+//           // Setting language veriable to use in registration twig file.
+//           $variables['v2CaptchaLanguage'] = $lang;
+//         }
+//       }
+//       /**  getRecruitmentBonusPilotConfig */
+//       $affiliateId = '';
+//       $affiliateId = \Drupal::request()->query->get('affiliate_id');
+//       $getRecruitmentBonusPilotConfig = MappingUsages::getRecruitmentBonusPilotConfig($affiliateId);
+//       $variables['recruitment_bonus_pilot_non_org_left_block'] = isset($getRecruitmentBonusPilotConfig['nonOrgLeftBlock']) ? $getRecruitmentBonusPilotConfig['nonOrgLeftBlock'] : '';
+//       // 'lp/register' form tempalte
+//       $form = Drupal::formBuilder()->getForm('\Drupal\lp_registration\Form\RegistrationForm');
+
+//       // Handle form attach libraries.
+//       if (isset($form['#attached'])) {
+//         $formAttachment = $form['#attached'];
+//         // Atach asset included in form attachment because of renderPlain.
+//         if (isset($formAttachment['library'])) {
+//           foreach ($formAttachment['library'] as $asset) {
+//             $variables['#attached']['library'][] = $asset;
+//           }
+//         }
+
+//         // Atach settings included in form attachment because of renderPlain.
+//         foreach ($formAttachment['drupalSettings'] as $key => $value) {
+//           $variables['#attached']['drupalSettings'][$key] = $value;
+//         }
+//       }
+
+//       $render = Drupal::service('renderer');
+//       // OP-6863 - Registration form submit using AJAX.
+//       $variables['lp_register_form'] = $render->render($form);
+
+//     }
+
+//   }
+//   /*   For Registration END */
+
+//   // OP-7477 - Capture Recruitment Parameters on all pages for logged out.
+//   $joinApiParams = \Drupal::request()->query->all();
+//   // To check the conditions for RECRUITMENT_JOIN.
+//   $is_recruitment_join = isset($joinApiParams['offer_id']) && !empty($joinApiParams['offer_id']) &&
+//   isset($joinApiParams['transaction_id']) && !empty($joinApiParams['transaction_id']);
+
+//   $session_manager = \Drupal::request()->getSession();
+//   $getParamsSession = $session_manager->get("joinApiParams");
+//   // Call panalist session service.
+//   $userSession = \Drupal::service('lp.util.session_user');
+//   if (isset($joinApiParams) && !empty($joinApiParams) && !$userSession->isAuthenticated() && $is_recruitment_join) {
+//     // To set the params into session.
+//     $session_manager->set("joinApiParams", $joinApiParams);
+//   }
+//   elseif ($userSession->isAuthenticated() && isset($getParamsSession) && !empty($getParamsSession)) {
+//     // To remove the params from session.
+//     $session_manager->remove("joinApiParams");
+//   }
+
+//   /* Check user login status START*/
+//   $UserSession = \Drupal::service('session_manager');
+//   $tmpstore = \Drupal::service('tempstore.private');
+//   $currentUser = \Drupal::service('current_user');
+//   $SessionBackendDefault = new SessionBackendDefault($UserSession, $tmpstore, $currentUser);
+//   $panelistData = $SessionBackendDefault->get('panelist');
+//   // User login status.
+//   $variables['userLoginStatus'] = FALSE;
+
+//   // Curiosity variables.
+//   $variables['lp_curiosity_question_asked'] = FALSE;
+//   $variables['lp_curiosity_question_fetched'] = FALSE;
+//   $variables['lp_curiosity_question_asked_count'] = 0;
+//   $variables['lp_curiosity_question_fetched_count'] = 0;
+
+//   $variables['#attached']['drupalSettings']['userLoginStatus'] = FALSE;
+
+//   if (isset($panelistData) && !empty($panelistData) && $panelistData['panelistId'] != '') {
+
+//     // OP-6976.
+//     if ($moduleHandler->moduleExists('lp_curiosity_question')) {
+//       if (stristr(Url::fromRoute('lp_mysurveys.studylist')->toString(), $current_path)) {
+
+//         $config = \Drupal::config('lp_curiosity_question.settings');
+//         $curiosity_check_required_options = $config->get('curiosity_check_required');
+//         // If enable ir_check then execute the code to call web services.
+//         if (!empty($curiosity_check_required_options) && ($curiosity_check_required_options['ir_check'] != "0")) {
+
+//           /* Curisoity code starts */
+//           if (isset($panelistData['questionsArray']) && !empty($panelistData['questionsArray'])) {
+//             $variables['lp_curiosity_question_fetched'] = TRUE;
+//             $variables['lp_curiosity_question_fetched_count'] = count($panelistData['questionsArray']);
+//           }
+//           if (isset($panelistData['askedQuestions']) && !empty($panelistData['askedQuestions'])) {
+//             $askedQuestionsCount = count($panelistData['askedQuestions']);
+//             $questionsCount = count($panelistData['questionsArray']);
+//             if ($askedQuestionsCount >= $questionsCount) {
+//               $variables['lp_curiosity_question_asked'] = TRUE;
+//             }
+//             $variables['lp_curiosity_question_asked_count'] = count($panelistData['askedQuestions']);
+//           }
+
+//           if ($moduleHandler->moduleExists('lp_curiosity_question')) {
+//             $form = Drupal::formBuilder()->getForm('\Drupal\lp_curiosity_question\Form\CuriosityLinkForm');
+//             $render = Drupal::service('renderer');
+//             $variables['curiosityLinkForm'] = $render->renderPlain($form);
+//           }
+//           /* Curisoity code ends */
+//         }
+//       }
+//     }
+
+//     $variables['#attached']['library'][] = 'lifepoints_sass/after-login';
+//     $sessionTimeout = Settings::get('Session_Timeout', NULL);
+//     $sessionTimeoutInMilliSeconds = $sessionTimeout * 1000;
+//     $sessionWarningTimeoutInMilliSeconds = $sessionTimeoutInMilliSeconds - (($sessionTimeoutInMilliSeconds * 0.6) / 100);
+//     $variables['#attached']['drupalSettings']['Session_Timeout'] = $sessionTimeoutInMilliSeconds;
+//     $variables['#attached']['drupalSettings']['Session_Warning_Timeout'] = $sessionWarningTimeoutInMilliSeconds;
+
+//     // LP settings.
+//     $lpSettings = Settings::get('lp', NULL);
+
+//     /* checking new terms verisons End */
+//     /** Adding rewards points to js variables */
+//     $variables['#attached']['drupalSettings']['pointsEarned'] = $panelistData['pointsEarned'];
+
+//     // User login status.
+//     $variables['userLoginStatus'] = TRUE;
+//     $variables['#attached']['drupalSettings']['userLoginStatus'] = TRUE;
+//     /** Adding panlist country  js variables */
+//     $variables['#attached']['drupalSettings']['country'] = isset($panelistData['country']) ? $panelistData['country'] : '';
+//   }
+//   else {
+
+//     /*   For LP Login START */
+//     if ($moduleHandler->moduleExists('lp_login')) {
+//       // Resend Doi Email Form.
+//       // OP-6976.
+//       if ($moduleHandler->moduleExists('lp_registration')) {
+//         if (stristr(Url::fromRoute('lp_registration.registrationPendingController')->toString(), $current_path) || stristr(Url::fromRoute('lp_login.Login')->toString(), $current_path)) {
+//           $form = Drupal::formBuilder()->getForm('\Drupal\lp_login\Form\ResendDoiEmailForm');
+//           $render = Drupal::service('renderer');
+//           $variables['resenddoiemail_form'] = $render->renderPlain($form);
+//         }
+//       }
+//     }
+//     if ($current_path == Url::fromRoute('lp_login.Login')->toString()) {
+//       $variables['#attached']['drupalSettings']['loginLinkNoModal'] = TRUE;
+//     }
+
+//     /*   For LP Login END */
+//   }
+
+//   $variables['#attached']['drupalSettings']['base_url'] = $base_url;
+
+//   // Activation success message for theme_scripts.js.
+//   $activateSuccessMessage = CommonMessenger::successMessageMapping("activation_mail_sent_submit");
+//   $variables['#attached']['drupalSettings']['activation_mail_sent_submit'] = (string) $activateSuccessMessage;
+
+//   // Forgot password success message for theme_scripts.js.
+//   $activateSuccessMessage = CommonMessenger::successMessageMapping("forgot_password_mail_sent_submit");
+//   $variables['fogotpassword_mail_sent_submit'] = (string) $activateSuccessMessage;
+
+//   /* check user login status END */
+
+//   $variables['basic_host_url'] = $GLOBALS['base_url'];
+//   // Popup blocker message.
+//   $popupblockerMessage = CommonMessenger::errorMessageMapping("popupblocker");
+//   $variables['popupblockerMessage'] = $popupblockerMessage;
+
+//   // System webcam status.
+//   $session = \Drupal::request()->getSession();
+//   $variables['#attached']['drupalSettings']['webcamCheckPageRefresh'] = FALSE;
+//   $panelistExternalSessions = $session->get('panelistExternalSessions');
+//   if (isset($panelistExternalSessions['panelistSystemWebCamStatus'])) {
+//     $variables['#attached']['drupalSettings']['panelistSystemWebCamStatus'] = $panelistExternalSessions['panelistSystemWebCamStatus'];
+//     $variables['#attached']['drupalSettings']['webcamCheckPageRefresh'] = TRUE;
+//   }
+
+//   // Helpsupport link.
+//   $variables['PleaseContactusMessage'] = CommonMessenger::errorMessageMapping("please_contact_us");
+
+//   // OP-5992.
+//   $variables['isvisibleRewardSection'] = FALSE;
+//   $panelConfig = \Drupal::service('lp.configuration');
+//   $panelConfigurations = $panelConfig->getRewardSectionSettings();
+//   if ($panelConfigurations == 1) {
+//     $variables['isvisibleRewardSection'] = TRUE;
+//   }
+
+//   // OP-6643 - Added route for register/confirm page for SEO.
+//   $registerConfirmUrl = Url::fromRoute('lp_registration.triggerDoi')->toString();
+//   $variables['#attached']['drupalSettings']['registerConfirmUrl'] = $registerConfirmUrl;
+
+//   // OP-7182 - To hide the carousel from portal for MobileApp.
+//   $deviceType = \Drupal::request()->query->get('device');
+//   $variables['isMobileApp'] = FALSE;
+//   // Get device type based on URL query paramerters
+//   // Like registration?device=app.
+//   // Login from Mobile App then True otherwise FALSE;.
+//   if ($deviceType == 'app') {
+//     $variables['isMobileApp'] = TRUE;
+//   }
+
+//   // Trustpilot settings.
+//   $config = \Drupal::service('settings');
+//   $variables['trustpilot'] = $config::get('lp')['trustpilot'];
+//   $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+//   $variables['language'] = $language;
+// }
+
+/**
+ * Implements hook_preprocess_HOOK() for HTML document templates.
+ *
+ * Adds body classes if certain regions have content.
+ * Page specific class to the body class of any page.
+ */
+// function lifepoints_sass_preprocess_html(&$variables) {
+//   // OP-4618: Classes will be added now on node view page only.
+//   if (\Drupal::routeMatch()->getRouteName() == 'entity.node.canonical') {
+//     $node = \Drupal::routeMatch()->getParameter('node');
+//     $variables['attributes']['class'][] = 'page-node-' . $node->id();
+//   }
+//   $current_path = \Drupal::service('path.current')->getPath();
+//   $variables['current_path'] = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+//   $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+//   $variables['language'] = $language;
+//   // OP-6465: LP App: Language on Datepicker formatting.
+//   if (isset($language) && !empty($language)) {
+//     $panelLanguage = explode('-', $language);
+//     $variables['#attached']['drupalSettings']['panelLanguage'] = $panelLanguage[0];
+//   }
+
+//   // Checking device=app set in session - OP-5558.
+//   // $userSession = \Drupal::service('lp.util.session_user');
+//   $panelistData = $userSession->getPanelistSessionData();
+
+//   // OP-7358 LP Portal Refresh V2: The logged in About Us pages should only use the logged in top nav
+//   // Add class if user is logged in.
+//   if (isset($panelistData) && !empty($panelistData)) {
+//     $variables['attributes']['class'][] = 'panelist-logged-in';
+//   }
+
+//   $deviceType = \Drupal::request()->query->get('device');
+//   $variables['#attached']['drupalSettings']['isMobileApp'] = FALSE;
+//   // Get device type based on URL query paramerters
+//   // Like member/account?device=app.
+//   // Login from Mobile App then True otherwise FALSE;.
+//   $deviceTypeSession = isset($panelistData['deviceType']) ? $panelistData['deviceType'] : '';
+//   if ($deviceType == 'app' || $deviceTypeSession == 'app') {
+//     $variables['#attached']['drupalSettings']['isMobileApp'] = TRUE;
+//   }
+// }
+
+/**
+ * Implements hook_theme_suggestions_page_alter().
+ *
+ * Add content type name suggestions.
+ */
+// function lifepoints_sass_theme_suggestions_page_alter(array &$suggestions, array &$variables) {
+//   // Add content type suggestions.
+//   if (\Drupal::routeMatch()->getRouteName() == 'entity.node.canonical') {
+//     $node = \Drupal::routeMatch()->getParameter('node');
+//     array_splice($suggestions, 1, 0, 'page__node__' . $node->getType());
+//   }
+//   // OP-3790
+//   // Added for non-oraganic registration page(RECRUITMENT_JOIN and API_JOIN).
+//   $request_path = \Drupal::request()->getPathInfo();
+//   $registration_path = Url::fromRoute('lp_registration.registrationForm')->toString();
+//   $baseCurrentPath = basename($request_path);
+//   $baseRegistrationPath = basename($registration_path);
+//   if ($baseCurrentPath == $baseRegistrationPath) {
+//     // Adding date format variable to registration scripts.
+//     $panelConfig = \Drupal::service('lp.configuration');
+//     $dateofbirthConfiguration = $panelConfig->getDateofBirthConfiguration();
+//     if (isset($dateofbirthConfiguration['format']) && $dateofbirthConfiguration['format'] != '') {
+//       $variables['#attached']['drupalSettings']['dateOfBirthFormat'] = $dateofbirthConfiguration['format'];
+//     }
+//     else {
+//       $variables['#attached']['drupalSettings']['dateOfBirthFormat'] = 'DD/MM/YYYY';
+//     }
+
+//     $joinApiParams = \Drupal::request()->query->all();
+//     // To add background image class for body tag in registration page.
+//     $variables['#attached']['drupalSettings']['non_organic_reg'] = FALSE;
+//     $session_manager = \Drupal::request()->getSession();
+//     if (isset($joinApiParams) && !empty($joinApiParams)) {
+//       // To set the params into session.
+//       $session_manager->set("joinApiParams", $joinApiParams);
+//     }
+//     // To get the params from session.
+//     $joinApiParams = $session_manager->get("joinApiParams");
+//     // To check the conditions for RECRUITMENT_JOIN.
+//     $is_recruitment_join = isset($joinApiParams['offer_id']) && !empty($joinApiParams['offer_id']) &&
+//       isset($joinApiParams['transaction_id']) && !empty($joinApiParams['transaction_id']);
+//     // To check the conditions for API_JOIN.
+//     $is_api_join = isset($joinApiParams['token']) && !empty($joinApiParams['token']) &&
+//       isset($joinApiParams['domain']) && !empty($joinApiParams['domain']) &&
+//       isset($joinApiParams['acceptLang']) && !empty($joinApiParams['acceptLang']);
+//     // To check for non-organic registration page(RECRUITMENT_JOIN and API_JOIN).
+//     if ($is_recruitment_join || $is_api_join) {
+//       $variables['#attached']['drupalSettings']['non_organic_reg'] = TRUE;
+//       $suggestions[] = 'page__' . str_replace('-', '_', 'non_organic_registration');
+//       $variables['#attached']['library'][] = 'lifepoints_sass/non-organic-scripts';
+//     }
+//     return $suggestions;
+//   }
+// }
+
+/**
+ * OP-6022 - pagination for mobile
+ * Implements hook_preprocess_HOOK() for community list page of pager.
+ * Prepares variables for pager templates.
+ *
+ * @param array $variables
+ *   An associative array
+ *   - #quantity: The number of pages in the pager list.Override quantity for Mobile view.
+ */
+// function lifepoints_sass_preprocess_pager(&$variables) {
+//   if (isset($variables['pager']['#parameters']['category_tid'])) {
+//     // Get environment from deeplink.
+//     $deeplinkConfig = \Drupal::service('lp.deeplink_builder');
+//     $getEnvironment = $deeplinkConfig->getEnvironment();
+//     if ($getEnvironment != 'other') {
+//       $element = $variables['pager']['#element'];
+//       $parameters = $variables['pager']['#parameters'];
+//       $config = \Drupal::service('settings');
+//       $quantity = $config::get('lp')['community']['mobilePagerLimit'];
+//       $route_name = $variables['pager']['#route_name'];
+//       $route_parameters = isset($variables['pager']['#route_parameters']) ? $variables['pager']['#route_parameters'] : [];
+
+//       /** @var \Drupal\Core\Pager\PagerManagerInterface $pager_manager */
+//       $pager_manager = \Drupal::service('pager.manager');
+
+//       $pager = $pager_manager->getPager($element);
+
+//       // Nothing to do if there is no pager.
+//       if (!isset($pager)) {
+//         return;
+//       }
+
+//       $pager_max = $pager->getTotalPages();
+
+//       // Nothing to do if there is only one page.
+//       if ($pager_max <= 1) {
+//         return;
+//       }
+
+//       $tags = $variables['pager']['#tags'];
+
+//       // Calculate various markers within this pager piece:
+//       // Middle is used to "center" pages around the current page.
+//       $pager_middle = ceil($quantity / 2);
+//       $current_page = $pager->getCurrentPage();
+//       // The current pager is the page we are currently paged to.
+//       $pager_current = $current_page + 1;
+//       // The first pager is the first page listed by this pager piece (re quantity).
+//       $pager_first = $pager_current - $pager_middle + 1;
+//       // The last is the last page listed by this pager piece (re quantity).
+//       $pager_last = $pager_current + $quantity - $pager_middle;
+//       // End of marker calculations.
+//       // Prepare for generation loop.
+//       $i = $pager_first;
+//       if ($pager_last > $pager_max) {
+//         // Adjust "center" if at end of query.
+//         $i = $i + ($pager_max - $pager_last);
+//         $pager_last = $pager_max;
+//       }
+//       if ($i <= 0) {
+//         // Adjust "center" if at start of query.
+//         $pager_last = $pager_last + (1 - $i);
+//         $i = 1;
+//       }
+//       // End of generation loop preparation.
+//       // Create the "first" and "previous" links if we are not on the first page.
+//       if ($current_page > 0) {
+//         $items['first'] = [];
+//         $options = [
+//           'query' => $pager_manager->getUpdatedParameters($parameters, $element, 0),
+//         ];
+//         $items['first']['href'] = Url::fromRoute($route_name, $route_parameters, $options)->toString();
+//         if (isset($tags[0])) {
+//           $items['first']['text'] = $tags[0];
+//         }
+
+//         $items['previous'] = [];
+//         $options = [
+//           'query' => $pager_manager->getUpdatedParameters($parameters, $element, $current_page - 1),
+//         ];
+//         $items['previous']['href'] = Url::fromRoute($route_name, $route_parameters, $options)->toString();
+//         if (isset($tags[1])) {
+//           $items['previous']['text'] = $tags[1];
+//         }
+//       }
+
+//       if ($i != $pager_max) {
+//         // Add an ellipsis if there are further previous pages.
+//         if ($i > 1) {
+//           $variables['ellipses']['previous'] = TRUE;
+//         }
+//         // Now generate the actual pager piece.
+//         for (; $i <= $pager_last && $i <= $pager_max; $i++) {
+//           $options = [
+//             'query' => $pager_manager->getUpdatedParameters($parameters, $element, $i - 1),
+//           ];
+//           $items['pages'][$i]['href'] = Url::fromRoute($route_name, $route_parameters, $options)->toString();
+//           if ($i == $pager_current) {
+//             $variables['current'] = $i;
+//           }
+//         }
+//         // Add an ellipsis if there are further next pages.
+//         if ($i < $pager_max + 1) {
+//           $variables['ellipses']['next'] = TRUE;
+//         }
+//       }
+
+//       // Create the "next" and "last" links if we are not on the last page.
+//       if ($current_page < ($pager_max - 1)) {
+//         $items['next'] = [];
+//         $options = [
+//           'query' => $pager_manager->getUpdatedParameters($parameters, $element, $current_page + 1),
+//         ];
+//         $items['next']['href'] = Url::fromRoute($route_name, $route_parameters, $options)->toString();
+//         if (isset($tags[3])) {
+//           $items['next']['text'] = $tags[3];
+//         }
+
+//         $items['last'] = [];
+//         $options = [
+//           'query' => $pager_manager->getUpdatedParameters($parameters, $element, $pager_max - 1),
+//         ];
+//         $items['last']['href'] = Url::fromRoute($route_name, $route_parameters, $options)->toString();
+//         if (isset($tags[4])) {
+//           $items['last']['text'] = $tags[4];
+//         }
+//       }
+//       $variables['items'] = $items;
+//     }
+//   }
+// }
+
+/**
+ * OP-6639 - Add Locale (en-us, de-de) in URL for Category in Article detail page
+ * Implements hook_preprocess_node() for node templates.
+ *
+ * @param array $variables:
+ *   Can be An associative array.
+ */
+// function lifepoints_sass_preprocess_node(&$variables) {
+//   global  $base_url;
+//   $variables['base_url'] = $base_url;
+
+//   // Extracting block directly from Blog views.
+//   $variables['blog_recommended_topics_block'] = views_embed_view('blog_recommended_topics', 'blog_block_related_topic');
+
+//   $referer = \Drupal::request()->headers->get('referer');
+//   $communityUrl = Url::fromRoute('view.community_search_page.page_1')->toString();
+//   // OP-7003: LP Portal SEO: Adapt URLs of Community Page to include localized translated page names in the strings.
+//   $communityUrlAlias = \Drupal::service('path_alias.manager')->getAliasByPath($communityUrl);
+//   // Append locale for Community Article detail page in Twig template.
+//   if (strpos($referer, $communityUrl) !== FALSE) {
+//     $variables['communityUrlAlias'] = $communityUrlAlias;
+//   }
+
+//   // OP-7509 LP Portal: Add a public HTML sitemap to LP.
+//   if (\Drupal::routeMatch()->getRouteName() == 'entity.node.canonical') {
+//     $node = \Drupal::routeMatch()->getParameter('node');
+//     // Get sitemap configuration.
+//     $configuration = \Drupal::config('lp_lib.sitemap.configuration');
+//     // Fetch sitemap node id and pass it to basic page node html twig.
+//     $sitemapNodeId = $configuration->get('sitemapNodeId');
+//     $sitemapNodeId = explode('/', $sitemapNodeId);
+//     $variables['sitemapNodeId'] = $sitemapNodeId[2];
+//     // Get menu items for About Lifepoints & Company Information.
+//     $aboutLifepointsConfig = $configuration->get('aboutLifepoints');
+//     $companyInformationConfig = $configuration->get('companyInformation');
+
+//     if ($node->id() == $sitemapNodeId[2]) {
+//       // Get current site language.
+//       $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+//       // About LifePoints.
+//       $aboutLifepoints = [];
+//       foreach ($aboutLifepointsConfig as $value) {
+//         $menu = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['uuid' => $value]);
+//         $menu = reset($menu);
+//         if (isset($menu) && $menu->isEnabled()) {
+//           $translatedMenuTitle = $menu->hasTranslation($language) ? $menu->getTranslation($language)->getTitle() : $menu->label();
+//           $aboutLifepoints[] = [
+//             'weight' => $menu->getWeight(),
+//             'menu' => $translatedMenuTitle,
+//             'path' => $menu->getUrlObject()->toString(),
+//             'class' => $menu->getUrlObject()->getOption('attributes')['class'][0],
+//           ];
+//         }
+//       }
+//       // Sorting array by menu weight.
+//       $menuSort = array_column($aboutLifepoints, 'weight');
+//       array_multisort($menuSort, SORT_ASC, $aboutLifepoints);
+//       // Assign menu to variable for About Lifepoints Menu.
+//       if (isset($aboutLifepoints) && !empty($aboutLifepoints)) {
+//         $variables['aboutLifepoints'] = $aboutLifepoints;
+//       }
+//       // Company Information.
+//       $companyInformation = [];
+//       foreach ($companyInformationConfig as $value) {
+//         $menu = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['uuid' => $value]);
+//         $menu = reset($menu);
+//         if (isset($menu) && $menu->isEnabled()) {
+//            $translatedMenuTitle = $menu->hasTranslation($language) ? $menu->getTranslation($language)->getTitle() : $menu->label();
+//            $companyInformation[] = [
+//              'weight' => $menu->getWeight(),
+//              'menu' => $translatedMenuTitle,
+//              'path' => $menu->getUrlObject()->toString(),
+//            ];
+//         }
+//       }
+//       // Sorting array by menu weight.
+//       $menuSort = array_column($companyInformation, 'weight');
+//       array_multisort($menuSort, SORT_ASC, $companyInformation);
+//       // Assign menu to variable for Company Information Menu.
+//       if (isset($companyInformation) && !empty($companyInformation)) {
+//         $variables['companyInformation'] = $companyInformation;
+//       }
+//       // Popular Posts.
+//       /* $categoryProperties['vid'] = 'lp_community_categories';
+//       $categoryData = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties($categoryProperties);
+//       $categories = [];
+//       foreach ($categoryData as $tid => $category) {
+//       // Get news node count for tagged taxonomy(community category) terms.
+//       $db = \Drupal::database();
+//       $query = $db->select('node__field_lp_community_category', 'f')
+//       ->condition('f.field_lp_community_category_target_id', $tid)
+//       ->condition('f.langcode', $language);
+//       $query->addExpression('COUNT(*)');
+//       $count = $query->execute()->fetchField();
+
+//       // If no any taxonomy term category tagged then not require to show category in popular posts.
+//       if ($count != 0) {
+//       if ($category->hasTranslation($language)) {
+//       $translated_term = \Drupal::service('entity.repository')->getTranslationFromContext($category, $language);
+//       $term_name = $translated_term->getName();
+//       }
+//       else {
+//       $term_name = $category->getName();
+//       }
+//       $communityPath = Url::fromRoute('view.community_search_page.page_1')->toString();
+//       $communityPathAlias = \Drupal::service('path_alias.manager')->getAliasByPath($communityPath . '/' . strtolower($term_name));
+//       $categories[] = [
+//       'term_name' => $term_name,
+//       'path' => $communityPathAlias
+//       ];
+//       }
+//       }
+//       if (isset($categories) && !empty($categories)) {
+//       $variables['popularPosts'] = $categories;
+//       } */
+//       $config = \Drupal::service('settings');
+//       $configReportAProblemLink = $config->get('lp')['login']['ReportAProblemLink'];
+//       $variables['configReportAProblemLink'] = $configReportAProblemLink;
+//     }
+//   }
+//   // Trustpilot settings.
+//   $config = \Drupal::service('settings');
+//   $variables['trustpilot'] = $config::get('lp')['trustpilot'];
+//   $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+//   $variables['language'] = $language;
+// }
+
+/**
+ * OP-7067 - feature-43
+ * Implements hook_preprocess_block() for block templates.
+ *
+ * @param array $variables:
+ *   Can be An associative array.
+ */
+// function lifepoints_sass_preprocess_block(&$variables) {
+//   global $base_url;
+//   // Our member page Your Opinion Matters.
+//   if ($variables['elements']['#id'] == 'views_block__our_member_your_opinion_block_1') {
+//     $communityUrl = Url::fromRoute('view.community_search_page.page_1')->toString();
+//     $communityUrlAlias = \Drupal::service('path_alias.manager')->getAliasByPath($communityUrl);
+//     $variables['communityUrlAlias'] = $communityUrlAlias;
+//   }
+//   // Our history - who we are page.
+//   if ($variables['elements']['#id'] == 'ourhistory') {
+//     $body = $variables['content']['body'][0]['#text'];
+//     $options = ['absolute' => TRUE];
+//     $url = Url::fromRoute('entity.node.canonical', ['node' => 18], $options);
+//     $howItWorksUrl = $url->toString();
+//     $body = str_replace('{{howItWorksLink}}', $howItWorksUrl, $body);
+//     $variables['content']['body'][0]['#text'] = $body;
+//   }
+
+//   // OP 7343 Registration Carousel Redesign for Mobile Web needs CTA for Sign In.
+//   if ($variables['elements']['#id'] == 'non_organic_registration_left_block') {
+//     $variables['loginFormLink'] = $base_url . MappingUsages::recreateUrlWithLocaleForDefaultPanel('lp_login.Login');
+//   }
+// }
+
+/**
+ * OP-7292 - Add data-src and unset src from image attributes.
+ * Implements hook_preprocess_image() for image templates.
+ *
+ * @param array $variables:
+ *   Can be An associative array.
+ */
+// function lifepoints_sass_preprocess_image(&$variables) {
+//   $moduleHandler = \Drupal::service('module_handler');
+//   if ($moduleHandler->moduleExists('lazy')) {
+//     $variables['attributes']['data-src'] = $variables['attributes']['src'];
+//     unset($variables['attributes']['src']);
+//     $variables['attributes']['class'] = 'lazyload';
+//   }
+// }

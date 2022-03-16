@@ -1,0 +1,6 @@
+name: Employee Registration
+type: module
+description: Module for implementing custom form for employee registration.
+core_version_requirement: ^8.8 || ^9
+package: Example
+

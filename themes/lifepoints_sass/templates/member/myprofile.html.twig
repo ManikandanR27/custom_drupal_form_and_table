@@ -1,0 +1,158 @@
+{{ attach_library('lp_myprofile/lp_myprofile_scripts') }}
+{{ unsubscribeUrl }}
+<section class="padding-tb40 path-member-accountpage">
+	<div class="container">
+	{% if page.highlighted %}
+	  {{ page.highlighted }}
+	{% endif %}
+		<div class="row">
+			<div class="col-md-3 visible-lg">
+				<div class="toc account_page_menu">
+					<p class="no-margin">&nbsp;</p>
+					{{ drupal_menu('accounts-page-menu') }}
+				</div>
+			</div>
+			<div class="col-md-12 col-lg-9">
+				<h4 class="dark-grey-text">{{ 'ACCOUNT SETTINGS'|t }}</h4>
+				{# Show Basic Information OP-4060 #}
+				<p>{{ 'Manage your personal information, change your login details or cancel your account.'|t }}</p>
+
+				<div class="card">
+					<div class="header">
+						<span class="dark-blue-text"><strong>{{ 'Basic Information'|t }}</strong></span>
+					</div>
+					<div class="card-content card-content-profile">
+						{{ myProfileForm }}
+					</div>
+				</div>
+				{# Show LOGIN & SECURITY OP-4060 #}
+				<div class="card">
+					<div class="header">
+						<span class="dark-blue-text"><strong>{{ 'LOGIN & SECURITY'|t }}</strong></span>
+					</div>
+					<div
+						class="card-content card-content-profile">
+						{# Show Change Email OP-4060 #}
+						<div class="row">
+							<div class="col-md-7">
+								<p class="text-uppercase">
+									<strong>{{ 'Email Address'|t }}</strong>
+								</p>
+								<p class="no-margin dark-grey-text">{{ 'Your email address is used as your account username.'|t }}</p>
+
+
+							</div>
+							<div class="col-md-5 text-right">
+								<p>
+									<a role="button" data-toggle="collapse" href="#collapseEmail" aria-expanded="false" aria-controls="collapseEmail" class="">{{ 'CHANGE EMAIL'|t }}</a>
+								</p>
+							</div>
+						</div>
+						<div
+							class="row">
+							{# Show Change Email Form OP-4060 #}
+							<div class="col-md-12">
+								<div class="collapse" id="collapseEmail">
+									<div class="alert alert-danger changeemail-errors">
+										<a class="close_changeemail_alert close">×</a>
+										<span></span>
+									</div>
+									<div class="alert alert-success changeemail-success">
+										<a class="close_changeemail_alert close">×</a>
+										<span></span>
+									</div>
+									<div class="well">
+												{{ changeEmailForm }}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<hr>
+
+						{# Show Change Password OP-4060 #}
+						<div class="row">
+							<div class="col-md-7">
+								<p class="text-uppercase">
+									<strong>{{ 'Password'|t }}</strong>
+								</p>
+								<p class="no-margin dark-grey-text">{{ 'Choose a unique password to protect your account.'|t }}</p>
+							</div>
+							<div class="col-md-5 text-right">
+								<p>
+									<a role="button" data-toggle="collapse" href="#collapsePassword" aria-expanded="false" aria-controls="changePassword" class="">{{ 'CHANGE PASSWORD'|t }}</a>
+								</p>
+							</div>
+						</div>
+
+						{# Show Change Password Form OP-4060 #}
+						<div class="row">
+							<div class="col-md-12">
+								<div class="collapse" id="collapsePassword">
+									<div class="alert alert-danger changepassword-errors">
+										<a class="close_changepassword_alert close">×</a>
+										<span></span>
+									</div>
+									<div class="alert alert-success changepassword-success">
+										<a class="close_changepassword_alert close">×</a>
+										<span></span>
+									</div>
+									<div class="well">
+												{{ changePasswordForm }}
+									</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{# End here to show Change Password Form OP-4060 #}
+					</div>
+				</div>
+
+				{# Show CANCEL MY ACCOUNT MEMBERSHIP OP-4060 #}
+				<div class="card">
+					<div class="header">
+						<span class="dark-blue-text"><strong>{{ 'CANCEL MY ACCOUNT'|t }}</strong></span>
+					</div>
+					<div class="card-content card-content-profile">
+            <div class="row">
+              <div class="col-md-12">
+                <p class=" dark-grey-text">{{ 'We’re sorry to see you go! Once you cancel your account, all your LifePoints (or LPs) and membership history will be permanently forfeited. If you want to rejoin the LifePoints community in the future, a different email address will be required 30 days after account cancellation.'|t }}</p>
+              </div>
+            </div>
+        		{{ unsubscribeForm }}
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+{# Show CANCEL MY ACCOUNT MEMBERSHIP Modal popup OP-4060 #}
+<div id="unsubscribeconfirm-box" class="modal fade" role="dialog">
+	<div
+		class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<a class="close login-box-close pull-right" data-dismiss="modal">
+					<i class="fas fa-times icon18"></i>
+				</a>
+				<div class="icon-logo"></div>
+				<h2 class="text-center">{{ "Do you really want to cancel your membership?"|t }}</h2>
+				<p class="text-center">{{ "If you still want to stay with us, click on 'Back' below."|t }}</p>
+				<p class="text-center">{{ "If you prefer to leave LifePoints, click on 'Proceed'."|t }}</p>
+				<div class="row text-center">
+					<div class="col-sm-12">
+						<a class="btn btn-secondary btn-round-lg btn-lg button" data-dismiss="modal">{{ "Back"|t }}</a>
+						&nbsp;&nbsp;&nbsp;
+						<a class="btn btn-blue btn-round-lg btn-lg button" onclick="document.getElementById('lp-unsubscribe-form').submit()">{{ "Proceed"|t }}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

@@ -1,0 +1,65 @@
+{{ attach_library('lp_login/lp_form_label_scripts') }}
+{% if page.highlighted %}
+	{{ page.highlighted }}
+{% endif %}
+{# Cookie Banner #}
+{% if page.cookie_banner %}
+	{% block cookie_banner %}
+	  <div id="cookie-modal-box" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="cookie_banner_notification">{{ page.cookie_banner }}</div>
+          </div>
+        </div>
+      </div>
+	{% endblock %}
+{% endif %}
+<div class="registration-white-bg-modalbox registration-pending-block">
+	<div {{ create_attribute({'class': ['container']} ) }}>
+
+		<div {{ create_attribute({'class': ['beluga-region']} ).setattribute('id','contenttop') }}></div>
+		<article {{ create_attribute({'class': [' ']} ).setattribute('id','login') }}>
+
+			{{ page.content }}
+
+		</article>
+	</div>
+</div>
+
+
+<div id="resenddoiemail-box" class="modal fade" role="dialog">
+	<div
+		class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header no-border" style="padding-bottom: 0px;">
+				<a class="close login-box-close pull-right" data-dismiss="modal">
+					<span class="icon_close"></span>
+				</a>
+			</div>
+			<div class="modal-body text-center">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1">
+						<img src="{{ basic_host_url }}/{{ directory }}/img/resend-link.svg" alt="" style="width:227px;"/>
+						<div class="alert alert-danger resend-doi-email-errors"></div>
+						<div class="alert alert-success resend-doi-email-success"></div>
+						{{ resenddoiemail_form }}
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+
+	</div>
+</div>
+
+{# <div class="page-loading-box" style="display: none;">
+	<div id="loading-overlay"></div>
+	<div id="animation_container">
+      <canvas id="canvas" width="100" height="100"></canvas>
+      <div id="dom_overlay_container"> </div>
+    </div>
+</div> #}

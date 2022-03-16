@@ -1,0 +1,62 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a block.
+ *
+ * Available variables:
+ * - plugin_id: The ID of the block implementation.
+ * - label: The configured label of the block if visible.
+ * - configuration: A list of the block's configuration values.
+ *   - label: The configured label for the block.
+ *   - label_display: The display settings for the label.
+ *   - provider: The module or other provider that provided this block plugin.
+ *   - Block plugin specific settings will also be stored here.
+ * - content: The content of this block.
+ * - attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
+ *   - id: A valid HTML ID and guaranteed unique.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ *
+ * @see template_preprocess_block()
+ *
+ * @ingroup themeable
+ */
+#}
+
+<div class="container white-text" {{ attributes }}>
+    {# OP-5591: Homepage Cookie Modal #}
+    <div class="modal-header no-border">
+        <h3 class="modal-title">{{ elements.content.field_cookie_modal_title[0]['#context'].value }}</h3>
+    </div>
+    <div class="modal-body modal-content-overflow">
+        {{content|without('field_findout_more_label','field_find','field_accept_all_cookies_label','field_accept_only_website_cookie','field_cookie_modal_title') }}
+        <a href="{{ elements.content.field_find[0]['#url'] }}">{{ elements.content.field_findout_more_label[0]['#context'].value }}</a>
+	</div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <a href="#" role="button" class="btn btn-lg btn-secondary btn-round btn-block close-slideIn" data-dismiss="modal" id="accept_all_cookies">{{ elements.content.field_accept_all_cookies_label[0]['#context'].value }}</a>
+            </div>
+            <div class="col-md-6 text-center">
+                <a href="#" role="button" class="btn btn-lg btn-secondary btn-round btn-block close-slideIn" data-dismiss="modal" id="accept_only_website_cookies">{{ elements.content.field_accept_only_website_cookie[0]['#context'].value }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

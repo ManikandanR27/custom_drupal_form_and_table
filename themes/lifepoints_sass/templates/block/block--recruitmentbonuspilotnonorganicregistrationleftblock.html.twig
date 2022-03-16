@@ -1,0 +1,107 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a block.
+ *
+ * Available variables:
+ * - plugin_id: The ID of the block implementation.
+ * - label: The configured label of the block if visible.
+ * - configuration: A list of the block's configuration values.
+ *   - label: The configured label for the block.
+ *   - label_display: The display settings for the label.
+ *   - provider: The module or other provider that provided this block plugin.
+ *   - Block plugin specific settings will also be stored here.
+ * - content: The content of this block.
+ * - attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
+ *   - id: A valid HTML ID and guaranteed unique.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ *
+ * @see template_preprocess_block()
+ *
+ * @ingroup themeable
+ */
+#}
+{% set signupImageurl = file_url(elements.content.field_registration_signup_image[0]['#item'].entity.uri.value)%}
+{% set surveyImageurl = file_url(elements.content.field_registration_survey_image[0]['#item'].entity.uri.value)%}
+{% set rewardsImageurl = file_url(elements.content.field_registration_rewards_image[0]['#item'].entity.uri.value)%}
+{% set liveLifeImageurl = file_url(elements.content.field_registration_livelife_img[0]['#item'].entity.uri.value)%}
+{% set signupText = elements.content.field_registration_signup_text[0] %}
+{% set surveyText = elements.content.field_registration_survey_text[0] %}
+{% set rewardsText = elements.content.field_registration_rewards_text[0] %}
+{% set liveLifText = elements.content.field_registration_livelife_text[0] %}
+{% set signupTitle = elements.content.field_registration_signup_title[0] %}
+{% set surveyTitle = elements.content.field_registration_survey_title[0] %}
+{% set rewardsTitle = elements.content.field_registration_rewards_title[0] %}
+
+{# <div class="visible-lg-block">
+	<div class="row list-row">
+		<div class="col-xs-3">
+			<img src="{{signupImageurl}}" alt="" class="img-responsive">
+		</div>
+		<div class="col-xs-8">
+            <h3 class="text-uppercase">{{signupTitle}}</h3>
+			{{signupText}}
+		</div>
+	</div>
+	<div class="row list-row">
+		<div class="col-xs-3">
+			<img src="{{surveyImageurl}}" alt="" class="img-responsive">
+		</div>
+		<div class="col-xs-8">
+            <h3 class="text-uppercase">{{surveyTitle}}</h3>
+			{{surveyText}}
+		</div>
+	</div>
+	<div class="row list-row">
+		<div class="col-xs-3">
+			<img src="{{rewardsImageurl}}" alt="" class="img-responsive">
+		</div>
+		<div class="col-xs-8">
+			<h3 class="text-uppercase">{{rewardsTitle}}</h3>
+			{{rewardsText}}
+		</div>
+	</div>
+
+
+	<div class="row list-row liveLifText">
+		{{liveLifText}}
+		<img src="{{liveLifeImageurl}}" alt="" class="img-responsive" width="116px">
+	</div>
+</div> #}
+
+<div class="hidden-lg">
+	<div class="owl-carousel owl-theme registration-owl-carousel">
+		<div class="item">
+			<div class="img200">
+				<img data-src="{{signupImageurl}}" alt="" class="lazyload img-responsive">
+			</div>
+			<h3 class="text-uppercase text-center deep-grey-text font-bold">{{signupTitle}}</h3>
+			{{signupText}}
+		</div>
+		<div class="item">
+			<div class="img200">
+				<img data-src="{{surveyImageurl}}" alt="" class="lazyload img-responsive">
+			</div>
+			<h3 class="text-uppercase text-center deep-grey-text font-bold">{{surveyTitle}}</h3>
+			{{surveyText}}
+		</div>
+		<div class="item">
+			<div class="img200">
+				<img data-src="{{rewardsImageurl}}" alt="" class="lazyload img-responsive">
+			</div>
+			<h3 class="text-uppercase text-center deep-grey-text font-bold">{{rewardsTitle}}</h3>
+			{% if nonOrganicRegistrationRewardPoints != '' %}
+				{{nonOrganicRegistrationRewardPoints | raw}}
+			{% else %}
+				{{rewardsText}}
+			{% endif %}
+		</div>
+	</div>
+  <button type="button" class="btn btn-blue btn-round-lg btn-lg btn-block registration-owl-carousel-close">{{'GET STARTED'|t}}</button>
+</div>

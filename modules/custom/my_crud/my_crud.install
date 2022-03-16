@@ -1,0 +1,18 @@
+<?php
+function my_crud_schema() {
+ $schema['my_crud'] = ['description' => 'This is used to crate crud',
+ 'fields' =>  
+     ['id' => ['description' => 'This primary identifier od the table',
+    'type' => 'serial','not null' => TRUE,'unsigned' => TRUE,],
+   
+    'name' => ['description' => 'Name of user',
+    'type' => 'varchar','length' =>'40','not null'=> TRUE],
+
+    'age' => ['description' => 'age of user',
+    'type' => 'varchar','length' =>'40','not null'=> TRUE],],
+    
+    'primary key' => ['id'],];
+    return $schema;
+
+}
+?>

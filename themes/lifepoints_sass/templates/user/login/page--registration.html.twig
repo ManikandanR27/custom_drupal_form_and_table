@@ -1,0 +1,177 @@
+{# OP-3894 adding v2 recaptcha js. #}
+{% if isV2CaptchaRequired %}
+	<script src="https://www.recaptcha.net/recaptcha/api.js?hl={{ v2CaptchaLanguage }}" async defer></script>
+{% endif %}
+{{ attach_library('lifepoints_sass/organic-scripts') }}
+{{ attach_library('lp_registration/lp_registration_scripts') }}
+
+{# OP-7484 trustpilot widget #}
+{{ attach_library('lifepoints_sass/trustpilot-scripts') }}
+{# Cookie Banner #}
+{% if page.cookie_banner %}
+	{% block cookie_banner %}
+		<div id="cookie-modal-box" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			<div
+				class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="cookie_banner_notification">{{ page.cookie_banner }}</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
+{% endif %}
+
+{% if isMobileApp == FALSE %}
+	<div class="mobile_overlay hidden-lg hide-overlay text-center">
+		<div class="container">
+			<a href="{{ homePageLink }}">
+				<div class="logo2 logo2-carousel"></div>
+			</a>
+			{{ drupal_entity('block', 'non_organic_registration_left_block') }}
+		</div>
+	</div>
+{% endif %}
+<section>
+	<div class="container full-height">
+		<div class="row hidden-lg visible-xs-block">
+			<div class="col-xs-6">
+				<a href="{{ homePageLink }}">
+					<div class="logo2 logo2-mobile-no-carousel">Logo</div>
+				</a>
+			</div>
+			<div class="col-xs-6">
+				<br>
+				<div class="sl-cta text-right">
+					<a href="{{ loginFormLink }}" target="_self" rel="">
+						<strong class="corp-blue">{{ 'SIGN IN'|t }}</strong>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="row hidden-xs">
+			<div class="col-md-6 col-md-offset-3">
+				<a href="{{ homePageLink }}">
+					<div class="logo2">Logo</div>
+				</a>
+			</div>
+		</div>
+		<div class="reg-card-wrapper">
+			<div class="sl-cta text-right hidden-xs">
+				<a href="{{ loginFormLink }}" target="_self" rel="">
+					<span class="dark-blue-grey-text">{{ 'Already a LifePoints member?'|t }}</span>&nbsp;
+					<strong class="corp-blue">{{ 'SIGN IN'|t }}</strong>
+				</a>
+			</div>
+
+			<div class="card card-form">
+				<div class="row">
+					<div class="col-md-6 hidden-xs visible-md visible-lg no-padding border-right">
+						<div class="info-wrapper-left">
+							<div class="card-content">
+								<div class="registration_title_part_1">
+									{{ drupal_entity('block', 'organic_registration_step_one') }}
+									<!-- TrustBox widget - Micro Combo -->
+									<div class="trustpilot-widget" data-locale="{{ language }}" data-template-id="{{ trustpilot.template_id }}" data-businessunit-id="{{ trustpilot.businessunit_id }}" data-style-height="100px" data-style-width="100%" data-theme="light">
+										<a href="{{ trustpilot.trustpilot_url }}" target="_blank" rel="noopener">Trustpilot</a>
+									</div>
+									<!-- End TrustBox widget -->
+								</div>
+								<div class="registration_title_part_2" style="display: none;">
+									{{ drupal_entity('block', 'organic_registration_step_two') }}
+									<!-- TrustBox widget - Micro Combo -->
+									<div class="trustpilot-widget" data-locale="{{ language }}" data-template-id="{{ trustpilot.template_id }}" data-businessunit-id="{{ trustpilot.businessunit_id }}" data-style-height="100px" data-style-width="100%" data-theme="light">
+										<a href="{{ trustpilot.trustpilot_url }}" target="_blank" rel="noopener">Trustpilot</a>
+									</div>
+									<!-- End TrustBox widget -->
+								</div>
+								<div class="registration_title_part_3" style="display: none;">
+									{{ drupal_entity('block', 'organic_registration_step_three') }}
+									<!-- TrustBox widget - Micro Combo -->
+									<div class="trustpilot-widget" data-locale="{{ language }}" data-template-id="{{ trustpilot.template_id }}" data-businessunit-id="{{ trustpilot.businessunit_id }}" data-style-height="100px" data-style-width="100%" data-theme="light">
+										<a href="{{ trustpilot.trustpilot_url }}" target="_blank" rel="noopener">Trustpilot</a>
+									</div>
+									<!-- End TrustBox widget -->
+								</div>
+								<div class="registration_title_part_4" style="display: none;">
+									{{ drupal_entity('block', 'organic_registration_step_four') }}
+									<!-- TrustBox widget - Micro Combo -->
+									<div class="trustpilot-widget" data-locale="{{ language }}" data-template-id="{{ trustpilot.template_id }}" data-businessunit-id="{{ trustpilot.businessunit_id }}" data-style-height="100px" data-style-width="100%" data-theme="light">
+										<a href="{{ trustpilot.trustpilot_url }}" target="_blank" rel="noopener">Trustpilot</a>
+									</div>
+									<!-- End TrustBox widget -->
+								</div>
+								<div class="registration_title_part_5" style="display: none;">
+									{{ drupal_entity('block', 'organic_registration_step_five') }}
+									<!-- TrustBox widget - Micro Combo -->
+									<div class="trustpilot-widget" data-locale="{{ language }}" data-template-id="{{ trustpilot.template_id }}" data-businessunit-id="{{ trustpilot.businessunit_id }}" data-style-height="100px" data-style-width="100%" data-theme="light">
+										<a href="{{ trustpilot.trustpilot_url }}" target="_blank" rel="noopener">Trustpilot</a>
+									</div>
+									<!-- End TrustBox widget -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="card-content right-reg-card-content">
+
+							<div class="organic-registraion-div">
+								<div class="row">
+									<div class="col-xs-9 col-md-9">
+										<div class="progress">
+											<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+										</div>
+									</div>
+									<div class="col-xs-3 col-md-3 text-right">
+										<div class="progress-bar-page-count">
+											<span class="registration_page_count">1</span>
+											<span>
+												{{'of'|t}}
+												5</span>
+										</div>
+									</div>
+								</div>
+								<h3 class="registration_title_part_1 font-bold lato-font dark-blue-grey-text">{{ 'LET’S GET STARTED'|t }}</h3>
+								<h3 class="registration_title_part_2 font-bold lato-font dark-blue-grey-text" style="display: none;">{{ 'CREATE A PASSWORD'|t }}</h3>
+								<h3 class="registration_title_part_3 font-bold lato-font dark-blue-grey-text" style="display: none;">{{ 'START YOUR PROFILE'|t }}</h3>
+								<h3 class="registration_title_part_4 font-bold lato-font dark-blue-grey-text" style="display: none;">{{ 'ADDRESS'|t }}</h3>
+								<h3 class="registration_title_part_5 font-bold lato-font dark-blue-grey-text" style="display: none;">{{ 'TERMS & CONDITIONS'|t }}</h3>
+								<p class="registration_title_part_1">{{ 'Sign up is completely free.'|t }}</p>
+								<p class="registration_title_part_2" style="display: none;">{{ 'Password must be 6-20 letters with at least one uppercase, one lowercase, a number 0-9 and a symbol: !@#$%^&*'|t }}</p>
+								<p class="registration_title_part_3" style="display: none;">{{ 'Help us match you with appropriate surveys'|t }}</p>
+								<p class="registration_title_part_4" style="display: none;">{{'Postal address is used to match you with surveys that are relevant to your location:'|t}}</p>
+								<div class="registration_title_part_5" style="display: none;">
+									<p class="font14">{{ 'LifePoints is owned and operated by Lightspeed LLC, a Kantar Group company.'|t }}</p>
+
+									<hr>
+									<p>{{ "To sign up, you'll need to agree to our terms."|t }}</p>
+								</div>
+								{% if page.highlighted %}
+									{{ page.highlighted }}
+								{% endif %}
+								<div class="alert alert-danger registration_errors rectangle-3"></div>
+								<br>
+								{{ lp_register_form }}
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<br><br>
+
+<div class="registration_page">&nbsp;</div>
+
+{# <div class="page-loading-box" style="display: none;">
+	<div id="loading-overlay"></div>
+	<div id="animation_container">
+		<canvas id="canvas" width="100" height="100"></canvas>
+		<div id="dom_overlay_container"></div>
+	</div>
+</div> #}

@@ -1,0 +1,4 @@
+{% for item in items %}
+{% set bodytext= token_replacement(item.content) %}
+{{ bodytext }}
+{% endfor %}

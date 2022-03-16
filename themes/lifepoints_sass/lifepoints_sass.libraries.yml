@@ -1,0 +1,103 @@
+global-styling:
+  css:
+    theme:
+      css/style.css: {}
+      css/bootstrap-datetimepicker.min.css: {}
+      css/anypicker.css: {}
+      css/anypicker-android.css: {}
+      css/owl.theme.default.min.css: {}
+      css/non-org-owl.css: {}
+      css/font-awesome.css: {}
+      css/font-awesome.min.css: {}
+    base:
+      'https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap': { type: external }
+  header: false
+  js:
+    js/DetectRTC.js: {}
+    js/theme_scripts.js: {}
+    js/modernizr-custom.js: {}
+    js/createjs.min.js: {}
+    js/lp-preloader.js: {}
+    js/loader_scripts.js: {}
+    bootstrap/assets/javascripts/bootstrap/affix.js: {}
+    bootstrap/assets/javascripts/bootstrap/alert.js: {}
+    bootstrap/assets/javascripts/bootstrap/button.js: {}
+    bootstrap/assets/javascripts/bootstrap/carousel.js: {}
+    bootstrap/assets/javascripts/bootstrap/collapse.js: {}
+    bootstrap/assets/javascripts/bootstrap/dropdown.js: {}
+    bootstrap/assets/javascripts/bootstrap/modal.js: {}
+    bootstrap/assets/javascripts/bootstrap/tooltip.js: {}
+    bootstrap/assets/javascripts/bootstrap/popover.js: {}
+    bootstrap/assets/javascripts/bootstrap/scrollspy.js: {}
+    bootstrap/assets/javascripts/bootstrap/tab.js: {}
+    bootstrap/assets/javascripts/bootstrap/transition.js: {}
+after-login:
+  header: false
+  version: 1.0
+  js:
+    js/after-login.js: {}
+non-organic-scripts:
+  js:
+    js/owl.carousel.min.js: {}
+organic-scripts:
+  js:
+    js/owl.carousel.min.js: {}
+  css:
+    theme:
+      css/owl.carousel.css: {}      
+      css/font-awesome.css: {}
+      css/font-awesome.min.css: {}
+jquery:
+  header: true
+  version: "3.5.1"
+  js:
+    js/jquery-3.5.1.min.js: { minified: true, weight: -20}
+homepage-scripts:
+  css:
+    theme:
+      css/aos.min.css: {}
+      css/owl.theme.default.min.css: {}
+      css/owl.carousel.css: {}      
+      css/font-awesome.css: {}
+      css/font-awesome.min.css: {}
+  js:
+    js/aos.min.js: {}
+    js/owl.carousel.min.js: {}
+    js/homepage_scripts.js: {}
+aboutus-scripts:
+  css:
+    theme:
+      css/aos.min.css: {}
+      css/owl.theme.default.min.css: {}
+      css/owl.carousel.css: {}      
+      css/font-awesome.css: {}
+      css/font-awesome.min.css: {}
+  js:
+    js/aos.min.js: {}
+    js/owl.carousel.min.js: {}
+    js/aboutus_scripts.js: {}
+adobe_analytics_user_status:
+  js:
+    js/adobe_analytics_user_status.js: {}
+tourjs-css:
+  css:
+    theme:
+      css/introjs.css: {}        
+      css/font-awesome.css: {}
+      css/font-awesome.min.css: {}
+trustpilot-scripts:
+  js:
+    js/tp.widget.bootstrap.min.js: {}
+carousel-scripts:
+  css:
+    theme:
+      css/aos.min.css: {}
+      css/owl.theme.default.min.css: {}
+      css/owl.carousel.css: {}
+      css/font-awesome.css: {}
+      css/font-awesome.min.css: {}
+  js:
+    js/aos.min.js: {}
+    js/owl.carousel.min.js: {}
+
+

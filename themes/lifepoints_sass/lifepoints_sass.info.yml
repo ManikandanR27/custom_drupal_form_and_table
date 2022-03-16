@@ -1,0 +1,61 @@
+core: 8.x
+type: theme
+base theme: bootstrap
+
+name: 'lifepoints_sass'
+description: 'Uses the Bootstrap framework Sass source files and must be compiled (not for beginners).'
+package: 'Bootstrap'
+core_version_requirement: ^8 || ^9
+
+regions:
+  navigation: 'Navigation'
+  navigation_collapsible: 'Navigation (Collapsible)'
+  navigation_mobile: 'Navigation (Mobile menu)'
+  header: 'Top Bar'
+  highlighted: 'Highlighted'
+  global_notifications: 'Global Notifications'
+  cookie_banner: 'Cookie Banner'
+  page_banner: 'Page Banner'
+  page_heroTop: 'Hero Top'
+  page_heroBottomTop: 'Hero Bottom Top'
+  page_heroBottomBlockA: 'Hero Bottom Block A'
+  page_heroBottomBlockB: 'Hero Bottom Block B'
+  page_heroBottomBlockC: 'Hero Bottom Block C'
+  page_homeRewards: 'Rewards Section'
+  page_homeTestimonials: 'Testimonials Section'
+  page_homeCommunity: 'Community Section'
+  page_communityA:  'Community Section A'
+  page_communityB:  'Community Section B'
+  page_communityC:  'Community Section C'
+  page_faq: 'FAQs'
+  page_howItWorks: 'How It Wokrs Take Surveys'
+  page_homeLetsGo: 'Lets Go CTA Section'
+  page_footerStrapline: 'Footer Strapline'
+  page_aboutusTop: 'About Us Top Content'
+  page_aboutusMiddle: 'About Us Middle Content'
+  page_aboutusBottom: 'About Us Bottom Content'
+  page_bannerBottom: 'Page Banner Bottom'
+  full_page_leftBlock: 'Full Page Left Block'
+  footerBlock_A: 'Footer Block A'
+  footerBlock_B: 'Footer Block B'
+  footerBlock_C: 'Footer Block C'
+  footerBlock_D: 'Footer Block D'
+  page_copyright: 'Copyright'
+  help: 'Help'
+  content: 'Content'
+  sidebar_first: 'Primary'
+  sidebar_second: 'Secondary'
+  footer: 'Footer'
+  copyright: 'Copyright'
+  page_end: 'Page End'
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+  footy_foot: 'Footy foot region'
+
+libraries:
+  - 'lifepoints_sass/global-styling'
+  - 'lifepoints_sass/bootstrap-scripts'
+
+libraries-override:
+  #downgrade jquery / force jquery into header
+  core/jquery: lifepoints_sass/jquery

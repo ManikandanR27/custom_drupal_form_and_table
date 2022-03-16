@@ -1,0 +1,8 @@
+#Routing For login
+employee_registration.employee_registration_form:
+  path: 'employee-registration'
+  defaults:
+    _form: 'Drupal\employee_registration\Form\RegistrationForm'
+    _title: 'Employee Registration Form'
+  requirements:
+    _permission: 'access content'
